@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: es-multidump
+spec:
+  template:
+    spec:
+      containers:
+      - name: es-multidump
+        image: hhaddadian/elasticsearch-dump:v6
+        imagePullPolicy: Always        
+        env:
+          - name: INDICIES
+            value: authx-1.0-privilegesets,dms-2.0,logs-authx-syslog,logs-es,logs-aas-syslog,authx-1.0-users,logs-aas,logs-dms,logs-ggdb-syslog,logs-pms,authx-1.0-organizations,authx-1.0-roles,authx-1.0-datasets,authx-1.0-datasources,authx-1.0-rulesets,authx-1.0-permsets,aas-2.0,logs-dms-syslog,authx-1.0-accounts,authx-1.0-rolegrants,pms-2.0,authx-1.0-policies
+          - name: ORIGIN
+            value: http://10.0.2.196:9200
+          - name: DEST
+            value: http://es1.es.svc.cluster.local:9200                  
+      restartPolicy: Never
+  backoffLimit: 4
+
+
+# logs-authx
+# authx-2.0
